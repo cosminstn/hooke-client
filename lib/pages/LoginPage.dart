@@ -1,9 +1,13 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:hooke/pages/HomePage.dart';
-import 'package:hooke/pages/PhotosPage.dart';
+import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
-import 'package:hooke/pages/RestaurantsListPage.dart';
+import 'package:hooke/utils/Constants.dart';
+import 'package:hooke/utils/Utils.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -18,16 +22,13 @@ class _LoginPageState extends State<LoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final logo = Padding(
       padding: EdgeInsets.fromLTRB(32, 32, 32, 0),
-      child: Text(
-        "hooke",
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontFamily: 'ComicSans', fontSize: 100, color: Colors.red),
-      ),
+      child: HookeLogo(),
     );
 
     final usernameField = Padding(
@@ -73,15 +74,9 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             username = usernameController.text;
             password = passwordController.text;
-            print('login returned ' + login().toString());
-            if (login() == false) {
-              return showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(content: Text("Invalid account!"));
-                  });
-            }
-            Navigator.pushNamed(context, RestaurantDetailsPage.tag);
+            // print('login returned ' + login().toString());
+            login(context, username, password);
+            // Navigator.pushNamed(context, RestaurantDetailsPage.tag);
           },
         ));
 
@@ -124,23 +119,52 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
         body: Center(
+          child: Form(
             child: ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        logo,
-        usernameField,
-        passwordField,
-        loginBtn,
-        registerBtn,
-        // photosBtn,
-        // restaurantsBtn
-      ],
-      padding: EdgeInsets.all(10),
-    )));
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                logo,
+                usernameField,
+                passwordField,
+                loginBtn,
+                registerBtn,
+                // photosBtn,
+                // restaurantsBtn
+              ],
+              padding: EdgeInsets.all(10),
+            )
+        )
+      )
+    );
   }
 
-  bool login() {
-    return false;
+  Future<void> login(BuildContext context, String username, String password) async {
+    var profile = await _authUser(username, password);
+    String firstName = profile['firstName'];
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(content: Text("First name: " + firstName));
+      }
+    );
+  }
+
+  Future<Map<String, dynamic>> _authUser(String username, String password) async {
+    http.Client client = new http.Client();
+    final response = await client.post(Constants.API_BASE_URL + '/pub/auth/',
+                                    headers: {
+                                      'APP_TOKEN' : Constants.APP_TOKEN,
+                                      'Authorization' : Utils.createAuthToken(username, password)
+                                    });
+    print(response.body);
+    if (response.statusCode == 401)
+      return null;
+    else
+      return compute(parseUser, response.body);
+  }
+
+  Map<String, dynamic> parseUser(String responseBody) {
+    return json.decode(responseBody).cast<Map<String, dynamic>>();
   }
 }

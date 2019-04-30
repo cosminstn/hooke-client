@@ -73,3 +73,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.io/custom-fonts/#from-packages
+  
+  fonts:
+    - family: Tondo
+      fonts:
+      - asset: fonts/tondo_v0_1_by_ficod.ttf
+    - family: Lobster
+      fonts:
+      - asset: fonts/Lobster-Regular.ttf

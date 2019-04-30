@@ -9,10 +9,9 @@ import 'package:http/http.dart' as http;
 
 Future<List<Restaurant>> fetchRestaurants() async { 
   http.Client client = http.Client();
-  final response = await client.get('http://192.168.10.37:8080/HookeRestApi/webapi/pub/restaurants/',
+  final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/',
                                     headers: {'APP_TOKEN' : Constants.APP_TOKEN});
-
-  return compute(parseRestaurants, response.body);
+  return compute<String, List<Restaurant>> (parseRestaurants, response.body);
 }
 
 List<Restaurant> parseRestaurants(String responseBody) {
