@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/pages/LoginPage.dart';
 import 'package:hooke/pages/HomePage.dart';
+import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
   
   final routes = <String, WidgetBuilder> {
     LoginPage.tag: (context) => LoginPage(),
+    RegisterPage.tag: (context) => RegisterPage(),
     HomePage.tag:  (context) => HomePage(),
     RestaurantDetailsPage.tag: (context) => RestaurantDetailsPage(restaurant: fetchRestaurant(1)),
     PhotosPage.tag: (context) => PhotosPage(),
@@ -42,7 +44,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
+        backgroundColor: Colors.black54
       ),
       home: LoginPage(),
       routes: routes,
