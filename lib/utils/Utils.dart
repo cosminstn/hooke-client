@@ -12,9 +12,10 @@ class Utils {
   }
 
   static String createAuthToken(String username, String password) {
-    String token = Constants.AUTH_HEADER_PREFIX;
-    token += username + ':' + password;
+    String finalToken = Constants.AUTH_HEADER_PREFIX;
+    String token = username + ':' + password;
     var bytes = utf8.encode(token);
-    return base64.encode(bytes);
+    finalToken += base64.encode(bytes);
+    return finalToken;
   }
 }

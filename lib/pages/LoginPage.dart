@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
+import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Utils.dart';
 import 'package:http/http.dart' as http;
+import 'package:logging/logging.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -23,6 +25,8 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  final Logger logger = Logger('LoginPage');
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,6 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             username = usernameController.text;
             password = passwordController.text;
-            // print('login returned ' + login().toString());
             login(context, username, password);
             // Navigator.pushNamed(context, RestaurantDetailsPage.tag);
           },
@@ -120,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
         body: Center(
           child: Form(
+            key: _formKey,
             child: ListView(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -140,31 +144,36 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> login(BuildContext context, String username, String password) async {
+    print('please wait while you are being authenticated...');
     var profile = await _authUser(username, password);
+    if (profile == null)
+      return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(content: Text('Invalid account'));
+        }
+      );
     String firstName = profile['firstName'];
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(content: Text("First name: " + firstName));
-      }
-    );
+    logger.fine('First name: ' + firstName);
+    logger.fine('SUCCESSFUL LOGIN!');
+    Navigator.pushNamed(context, RestaurantsListPage.tag);
   }
 
-  Future<Map<String, dynamic>> _authUser(String username, String password) async {
+  Future<Map> _authUser(String username, String password) async {
     http.Client client = new http.Client();
-    final response = await client.post(Constants.API_BASE_URL + '/pub/auth/',
+    print('authenticatinb at: ' + Constants.API_BASE_URL + '/pub/auth/');
+    print('Authorization header: ' + Utils.createAuthToken(username, password));
+    final response = await client.get(Constants.API_BASE_URL + '/pub/auth/',
                                     headers: {
                                       'APP_TOKEN' : Constants.APP_TOKEN,
                                       'Authorization' : Utils.createAuthToken(username, password)
                                     });
     print(response.body);
-    if (response.statusCode == 401)
+    if (response.body == null || response.statusCode != 200)
       return null;
     else
-      return compute(parseUser, response.body);
-  }
-
-  Map<String, dynamic> parseUser(String responseBody) {
-    return json.decode(responseBody).cast<Map<String, dynamic>>();
+      return json.decode(response.body);
+      // return compute(parseUser, response.body);
+      // compute calls a cast method and doesn't for map
   }
 }
