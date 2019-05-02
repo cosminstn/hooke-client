@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
+import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Utils.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterPage extends StatefulWidget {
   static String tag = 'register';
@@ -197,11 +201,8 @@ class _RegisterPageState extends State<RegisterPage> {
           onPressed: () {
             if (_formKey.currentState.validate()) {
               // If the form is valid, we want to show a Snackbar
-              return showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(content: Text("Valid form!"));
-                  });
+              _register(usernameController.text, passwordController.text, firstNameController.text, lastNameController.text,
+                        emailController.text, phoneController.text);
             }
             else {
               return showDialog(
@@ -238,6 +239,46 @@ class _RegisterPageState extends State<RegisterPage> {
         )
       )
     );
+  }
+
+  Future<bool> _registerUser(String username, String password, String firstName, String lastName,
+                            String email, String phoneNumber) async {
+    http.Client client = new http.Client();
+
+    var profileData = new Map<String, String>();
+    profileData['firstName'] = firstName;
+    profileData['lastName'] = lastName;
+    profileData['email'] = email;
+    profileData['phoneNumber'] = phoneNumber; 
+
+    var response = await client.post(Constants.API_BASE_URL + '/pub/register', 
+      headers: {
+        'Content-Type': 'application/json',
+        'APP_TOKEN': Constants.APP_TOKEN,
+        'Authorization': Constants.AUTH_HEADER_PREFIX + Utils.createAuthToken(username, password)
+      },
+      body: json.encode(profileData));
+    // print(response.body);
+    return response.statusCode == 200;
+  }
+
+  Future<void> _register(String username, String password, String firstName, String lastName,
+                         String email, String phoneNumber) async {
+    
+    var created = await _registerUser(username, password, firstName, lastName, email, phoneNumber);
+    if (!created) 
+      return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(content: Text('Could not create your account'));
+        }
+      );
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(content: Text('Account created!'));
+        }
+      );
   }
 
   bool _isUsernameAlreadyTaken(String username) {

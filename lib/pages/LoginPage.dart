@@ -161,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<Map> _authUser(String username, String password) async {
     http.Client client = new http.Client();
-    print('authenticatinb at: ' + Constants.API_BASE_URL + '/pub/auth/');
+    print('authenticating at: ' + Constants.API_BASE_URL + '/pub/auth/');
     print('Authorization header: ' + Utils.createAuthToken(username, password));
     final response = await client.get(Constants.API_BASE_URL + '/pub/auth/',
                                     headers: {
