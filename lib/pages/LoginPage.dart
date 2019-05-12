@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
+import 'package:hooke/pages/AdminHomePage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
@@ -106,6 +107,12 @@ class _LoginPageState extends State<LoginPage> {
           },
         ));
 
+    // usernameController.text = 'cosmin97';
+    // passwordController.text = 'abcd1234';
+
+    usernameController.text = 'manager_city';
+    passwordController.text = 'abcd1234';
+
     return Center(
       child: Form(
         key: _formKey,
@@ -152,7 +159,11 @@ class _LoginPageState extends State<LoginPage> {
     String firstName = profile['firstName'];
     logger.fine('First name: ' + firstName);
     logger.fine('SUCCESSFUL LOGIN!');
-    Navigator.pushNamed(context, RestaurantsListPage.tag);
+    int roleId = profile['roleId'];
+    if (roleId == 5)
+      Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
+    else
+      Navigator.pushNamed(context, RestaurantsListPage.tag);
   }
 
   Future<Map> _authUser(String username, String password) async {
