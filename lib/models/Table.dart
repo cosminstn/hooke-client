@@ -3,10 +3,10 @@ class Table {
   final int restaurantId;
 	final int number;
 	final String name;
-	final String description;
+	
 	final int maxSeats;
 
-  Table({this.id, this.restaurantId, this.number, this.name, this.description, this.maxSeats});
+  Table({this.id, this.restaurantId, this.number, this.name, this.maxSeats});
 
 /*
   {
@@ -20,11 +20,11 @@ class Table {
 */
   factory Table.fromJson(Map<String, dynamic> json) { 
     return Table(
-      id: int.parse(json['id']),
-      restaurantId: int.parse(json['restaurantId']),
-      number: int.parse(json['number']),
+      id: json['id'],
+      restaurantId:json['restaurantId'],
+      number: json['number'],
       name: json['name'],
-      description: json['description']
+      maxSeats: json['maxSeats']
     );
   }
 

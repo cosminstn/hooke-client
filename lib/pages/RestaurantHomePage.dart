@@ -26,6 +26,7 @@ class _BasicRestaurantHomePage extends State<RestaurantHomePage> {
         child: ListView(
           children: <Widget>[
             ListTile(
+              
               title: Text("Cauta restaurant"),
               trailing: Icon(Icons.arrow_forward),
 

@@ -7,19 +7,20 @@ import 'package:hooke/utils/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:hooke/models/Table.dart' as HookeTable;
 
+
 class RestaurantDetailsPage extends StatelessWidget {
   static String tag = 'restaurant'; 
 
   RestaurantDetailsPage({Key key}) : super(key: key);
 
-  Future<List<HookeTable.Table>> fetchRestaurantTables(restaurantId) async {
+  Future<List<HookeTable.Table>> fetchRestaurantTables(int restaurantId) async {
     http.Client client = http.Client();
-    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId,
+    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId.toString() + '/tables',
                                       headers: {'APP_TOKEN' : Constants.APP_TOKEN});
     return compute<String, List<HookeTable.Table>> (parseTables, response.body);
   }
 
-  List<HookeTable.Table> parseTables(String responseBody) {
+  static List<HookeTable.Table> parseTables(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<HookeTable.Table>((json) => HookeTable.Table.fromJson(json)).toList();
   }
@@ -81,7 +82,7 @@ class RestaurantDetailsPage extends StatelessWidget {
       future: tables,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            throw Exception('${snapshot.error}');
+            throw Exception('${snapshot.error.toString()}');
           }
           return snapshot.hasData ? _TablesList(tables: snapshot.data) :
                                     Center(child: CircularProgressIndicator());
@@ -124,7 +125,7 @@ class _TablesList extends StatelessWidget {
   final List<HookeTable.Table> tables;
 
   _TablesList({Key key, this.tables}) : super(key: key);
-  
+  double _volume=0.0;
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -132,12 +133,21 @@ class _TablesList extends StatelessWidget {
       itemCount: tables.length,
       itemBuilder: (context, index) {
         var currentTable = tables[index];
-        return Column(
+        return Column(    
           children: <Widget>[
-            Text(currentTable.name)
-          ],
+                 Text(currentTable.name),
+                 
+                 Checkbox(
+                  value:false,
+                   onChanged: (){
+                                        
+                   },
+                 )
+        
+              ]
         );
       },
     );
   }
 }
+
