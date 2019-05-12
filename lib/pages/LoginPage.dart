@@ -7,6 +7,7 @@ import 'package:hooke/pages/AdminHomePage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
+import 'package:hooke/utils/Globals.dart';
 import 'package:hooke/utils/Utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
@@ -159,6 +160,8 @@ class _LoginPageState extends State<LoginPage> {
     String firstName = profile['firstName'];
     logger.fine('First name: ' + firstName);
     logger.fine('SUCCESSFUL LOGIN!');
+    //store the auth token to be used in secured requests later 
+    Globals.authToken = Utils.createAuthToken(username, password);
     int roleId = profile['roleId'];
     if (roleId == 5)
       Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
@@ -177,8 +180,10 @@ class _LoginPageState extends State<LoginPage> {
       print(response.body);
       if (response.body == null || response.statusCode != 200)
         return null;
-      else
+      else {
+        
         return json.decode(response.body);
+      }
         // return compute(parseUser, response.body);
         // compute calls a cast method and doesn't for map
     } catch (ex) {
