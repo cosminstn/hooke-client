@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Utils.dart';
@@ -28,10 +29,15 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    
     final logo = Padding(
+      padding: EdgeInsets.fromLTRB(100, 32, 100, 0),
+      child: HookeLogo()
+    );
+
+    final logoText = Padding(
       padding: EdgeInsets.fromLTRB(32, 32, 32, 0),
-      child: HookeLogo(),
+      child: HookeLogoText(),
     );
 
     final usernameField = Padding(
@@ -226,6 +232,7 @@ class _RegisterPageState extends State<RegisterPage> {
             shrinkWrap: true,
             children: <Widget>[
               logo,
+              logoText,
               usernameField,
               passwordField,
               confirmPasswordField,

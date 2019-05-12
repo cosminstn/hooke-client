@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/pages/LoginPage.dart';
-import 'package:hooke/pages/HomePage.dart';
-import 'package:hooke/pages/RegisterPage.dart';
-import 'package:hooke/pages/RestaurantDetailsPage.dart';
-import 'package:hooke/pages/PhotosPage.dart';
-import 'package:hooke/pages/RestaurantsListPage.dart';
-
+import 'package:hooke/utils/Routes.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -28,16 +23,6 @@ Future<Restaurant> fetchRestaurant(int restaurantId) async {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  
-  final routes = <String, WidgetBuilder> {
-    LoginPage.tag: (context) => LoginPage(),
-    RegisterPage.tag: (context) => RegisterPage(),
-    HomePage.tag:  (context) => HomePage(),
-    RestaurantDetailsPage.tag: (context) => RestaurantDetailsPage(restaurant: fetchRestaurant(1)),
-    PhotosPage.tag: (context) => PhotosPage(),
-    RestaurantsListPage.tag: (context) => RestaurantsListPage(),
-    '/logout':     (context) => LoginPage()
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +33,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.black54
       ),
       home: LoginPage(),
-      routes: routes,
+      routes: Routes.routes,
     );
   }
 }

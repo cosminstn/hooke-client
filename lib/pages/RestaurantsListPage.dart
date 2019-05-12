@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
+import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/utils/Constants.dart';
 
 import 'package:http/http.dart' as http;
@@ -55,7 +56,12 @@ class _RestaurantsList  extends StatelessWidget {
       ),
       itemCount: restaurants.length,
       itemBuilder: (context, index) {
-        return Image.network(restaurants[index].pictureUrl);
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, RestaurantDetailsPage.tag, arguments: restaurants[index]);
+          },
+          child: Image.network(restaurants[index].pictureUrl)
+        );
       },
     );
   }

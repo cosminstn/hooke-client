@@ -1,15 +1,15 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/pages/RegisterPage.dart';
-import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 class LoginPage extends StatefulWidget {
   static String tag = 'login-page';
@@ -18,6 +18,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  bool _inProgress = false;
+
   String username = "";
   String password = "";
 
@@ -28,11 +31,16 @@ class _LoginPageState extends State<LoginPage> {
 
   final Logger logger = Logger('LoginPage');
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildForm(BuildContext context) {
+  
     final logo = Padding(
+      padding: EdgeInsets.fromLTRB(100, 32, 100, 0),
+      child: HookeLogo()
+    );
+
+    final logoText = Padding(
       padding: EdgeInsets.fromLTRB(32, 32, 32, 0),
-      child: HookeLogo(),
+      child: HookeLogoText(),
     );
 
     final usernameField = Padding(
@@ -98,54 +106,42 @@ class _LoginPageState extends State<LoginPage> {
           },
         ));
 
-    // final photosBtn = Padding(
-    //     padding: EdgeInsets.only(top: 16.0),
-    //     child: RaisedButton(
-    //       shape:
-    //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-    //       child: Text('Photos', style: TextStyle(color: Colors.black)),
-    //       onPressed: () {
-    //         Navigator.pushNamed(context, PhotosPage.tag);
-    //       },
-    //     ));
-
-    // final restaurantsBtn = Padding(
-    //     padding: EdgeInsets.only(top: 16.0),
-    //     child: RaisedButton(
-    //       shape:
-    //           RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-    //       child: Text('restaurants', style: TextStyle(color: Colors.black)),
-    //       onPressed: () {
-    //         Navigator.pushNamed(context, RestaurantsListPage.tag);
-    //       },
-    //     ));
-
-    return Scaffold(
-        body: Center(
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                logo,
-                usernameField,
-                passwordField,
-                loginBtn,
-                registerBtn,
-                // photosBtn,
-                // restaurantsBtn
-              ],
-              padding: EdgeInsets.all(10),
-            )
+    return Center(
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            logo,
+            logoText,
+            usernameField,
+            passwordField,
+            loginBtn,
+            registerBtn,
+          ],
+          padding: EdgeInsets.all(10),
         )
-      )
+    )
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+      return Scaffold(
+        body: ModalProgressHUD(child: _buildForm(context), inAsyncCall: _inProgress, dismissible: false,)
+      );
   }
 
   Future<void> login(BuildContext context, String username, String password) async {
     print('please wait while you are being authenticated...');
+    setState(() {
+      _inProgress = true; 
+    });
     var profile = await _authUser(username, password);
+    setState(() {
+      _inProgress = false;
+    });
     if (profile == null)
       return showDialog(
         context: context,
@@ -160,20 +156,23 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<Map> _authUser(String username, String password) async {
-    http.Client client = new http.Client();
-    print('authenticating at: ' + Constants.API_BASE_URL + '/pub/auth/');
-    print('Authorization header: ' + Utils.createAuthToken(username, password));
-    final response = await client.get(Constants.API_BASE_URL + '/pub/auth/',
-                                    headers: {
-                                      'APP_TOKEN' : Constants.APP_TOKEN,
-                                      'Authorization' : Utils.createAuthToken(username, password)
-                                    });
-    print(response.body);
-    if (response.body == null || response.statusCode != 200)
+    try {
+      http.Client client = new http.Client();
+      final response = await client.get(Constants.API_BASE_URL + '/pub/auth/',
+                                      headers: {
+                                        'APP_TOKEN' : Constants.APP_TOKEN,
+                                        'Authorization' : Utils.createAuthToken(username, password)
+                                      }).timeout(const Duration(seconds: 3));
+      print(response.body);
+      if (response.body == null || response.statusCode != 200)
+        return null;
+      else
+        return json.decode(response.body);
+        // return compute(parseUser, response.body);
+        // compute calls a cast method and doesn't for map
+    } catch (ex) {
+      logger.severe(ex);
       return null;
-    else
-      return json.decode(response.body);
-      // return compute(parseUser, response.body);
-      // compute calls a cast method and doesn't for map
+    }
   }
 }

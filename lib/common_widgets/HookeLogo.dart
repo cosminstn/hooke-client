@@ -4,11 +4,6 @@ class HookeLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "hooke",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontFamily: 'Tondo', fontSize: 100, color: Colors.red),
-    );
+    return Image(image: AssetImage('assets/images/hooke.png'));
   }
 }
