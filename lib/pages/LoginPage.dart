@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/pages/RegisterPage.dart';
+import 'package:hooke/pages/RestaurantHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Utils.dart';
@@ -105,6 +106,8 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushNamed(context, RegisterPage.tag);
           },
         ));
+    usernameController.text="anamaria";
+    passwordController.text="parolaapp";
 
     return Center(
       child: Form(
@@ -152,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
     String firstName = profile['firstName'];
     logger.fine('First name: ' + firstName);
     logger.fine('SUCCESSFUL LOGIN!');
-    Navigator.pushNamed(context, RestaurantsListPage.tag);
+    Navigator.pushNamed(context, RestaurantHomePage.tag);
   }
 
   Future<Map> _authUser(String username, String password) async {

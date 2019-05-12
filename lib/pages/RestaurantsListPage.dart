@@ -33,20 +33,16 @@ class RestaurantsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Lista restaurante'),
-        ),
-        body: FutureBuilder<List<Restaurant>>(
-            future: fetchRestaurantsOffline(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                throw Exception('${snapshot.error}');
-              }
-              return snapshot.hasData
-                  ? _RestaurantsList(restaurants: snapshot.data)
-                  : Center(child: CircularProgressIndicator());
-            }));
+    return FutureBuilder<List<Restaurant>>(
+        future: fetchRestaurantsOffline(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            throw Exception('${snapshot.error}');
+          }
+          return snapshot.hasData
+              ? _RestaurantsList(restaurants: snapshot.data)
+              : Center(child: CircularProgressIndicator());
+        });
   }
 }
 
@@ -61,33 +57,29 @@ class _RestaurantsList extends StatelessWidget {
       itemCount: restaurants.length,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, RestaurantDetailsPage.tag, arguments: restaurants[index]);
-          },
-          child: Card(
-            color: Theme.of(context).primaryColorLight,
-            child: Theme(
-                data: Theme.of(context).copyWith(cardColor: Colors.red),
-                child: Column(
-                  children: <Widget>[
-                    Image.network(restaurants[index].pictureUrl),
-                    Text(
-                      restaurants[index].name,
-                      style: TextStyle(fontSize: 25),
-                    ),
-                    Text(
-                      restaurants[index].description,
-                    ),
-                    Text(
-                      restaurants[index].address,
-                      style: TextStyle(fontStyle: FontStyle.italic)
-                    ),
-                  ],
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                )
-              )
-          )
-        );
+            onTap: () {
+              Navigator.pushNamed(context, RestaurantDetailsPage.tag,
+                  arguments: restaurants[index]);
+            },
+            child: Card(
+                color: Theme.of(context).primaryColorLight,
+                child: Theme(
+                    data: Theme.of(context).copyWith(cardColor: Colors.red),
+                    child: Column(
+                      children: <Widget>[
+                        Image.network(restaurants[index].pictureUrl),
+                        Text(
+                          restaurants[index].name,
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        Text(
+                          restaurants[index].description,
+                        ),
+                        Text(restaurants[index].address,
+                            style: TextStyle(fontStyle: FontStyle.italic)),
+                      ],
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ))));
       },
     );
   }

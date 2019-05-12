@@ -4,9 +4,12 @@ import 'package:hooke/pages/LoginPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
+import 'package:hooke/pages/RestaurantHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 
+
 class Routes {
+
 
   static final routes = <String, WidgetBuilder> {
       LoginPage.tag: (context) => LoginPage(),
@@ -15,6 +18,7 @@ class Routes {
       RestaurantDetailsPage.tag: (context) => RestaurantDetailsPage(),
       PhotosPage.tag: (context) => PhotosPage(),
       RestaurantsListPage.tag: (context) => RestaurantsListPage(),
+      RestaurantHomePage.tag: (context) =>RestaurantHomePage(),
       '/logout':     (context) => LoginPage()
     };
 
