@@ -26,7 +26,8 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.text,
       autofocus: false,
       controller: usernameController,
-      decoration: InputDecoration(
+      decoration: 
+      InputDecoration(
         hintText: 'Username',
         contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)) 

@@ -5,6 +5,7 @@ import 'package:hooke/pages/HomePage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
+import 'package:hooke/pages/RestaurantHomePage.dart';
 
 import 'dart:convert';
 
@@ -42,10 +43,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
       ),
       home: LoginPage(),
       routes: routes,
     );
   }
 }
+
+
+// void main() {
+//   runApp(BasicAppBarSample());
+// }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
-
 import 'dart:async';
 
 class RestaurantDetailsPage extends StatelessWidget {
@@ -11,6 +10,9 @@ class RestaurantDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var routes=<String,WidgetBuilder>{
+      
+    };
     return Scaffold(
       appBar: AppBar(
         title: Text('Fetch data example'),
