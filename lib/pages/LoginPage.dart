@@ -146,7 +146,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _inProgress = true; 
     });
-    var profile = await _authUser(username, password);
+    var profile;
+    if (Constants.LOCAL_DEV_MODE == false)
+      profile = await _authUser(username, password);
+    else
+      profile = _localAuth(username, password);
     setState(() {
       _inProgress = false;
     });
@@ -180,15 +184,22 @@ class _LoginPageState extends State<LoginPage> {
       print(response.body);
       if (response.body == null || response.statusCode != 200)
         return null;
-      else {
-        
+      else 
         return json.decode(response.body);
-      }
+      
         // return compute(parseUser, response.body);
         // compute calls a cast method and doesn't for map
     } catch (ex) {
       logger.severe(ex);
       return null;
     }
+  }
+
+  Map<String, dynamic> _localAuth(String username, String password) {
+    String localConsumer = '{    "email": "stefanesanu1@gmail.com",    "firstName": "Stefan",    "lastName": "Esanu",    "phoneNumber": "0799999999","roleId": 4}';
+    String localManager = '{"email": "contact@citygrill.ro","firstName": "Ioan", "lastName": "Barbu", "phoneNumber": "+40730943111", "roleId": 5}';
+    if (username.contains('manager'))
+      return json.decode(localManager);
+    return json.decode(localConsumer);
   }
 }
