@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hooke/pages/AdminHomePage.dart';
 import 'package:hooke/pages/HomePage.dart';
 import 'package:hooke/pages/LoginPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
@@ -18,7 +19,8 @@ class Routes {
       RestaurantDetailsPage.tag: (context) => RestaurantDetailsPage(),
       PhotosPage.tag: (context) => PhotosPage(),
       RestaurantsListPage.tag: (context) => RestaurantsListPage(),
-      RestaurantHomePage.tag: (context) =>RestaurantHomePage(),
+      RestaurantHomePage.tag: (context) => RestaurantHomePage(),
+      AdminHomePage.tag: (context) => AdminHomePage(),
       '/logout':     (context) => LoginPage()
     };
 

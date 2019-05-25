@@ -26,7 +26,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     

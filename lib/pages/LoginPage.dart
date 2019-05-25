@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
+import 'package:hooke/pages/AdminHomePage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
+import 'package:hooke/utils/Globals.dart';
 import 'package:hooke/utils/Utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:logging/logging.dart';
@@ -109,6 +111,12 @@ class _LoginPageState extends State<LoginPage> {
     usernameController.text="anamaria";
     passwordController.text="parolaapp";
 
+    // usernameController.text = 'cosmin97';
+    // passwordController.text = 'abcd1234';
+
+    usernameController.text = 'manager_city';
+    passwordController.text = 'abcd1234';
+
     return Center(
       child: Form(
         key: _formKey,
@@ -141,7 +149,11 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _inProgress = true; 
     });
-    var profile = await _authUser(username, password);
+    var profile;
+    if (Constants.LOCAL_DEV_MODE == false)
+      profile = await _authUser(username, password);
+    else
+      profile = _localAuth(username, password);
     setState(() {
       _inProgress = false;
     });
@@ -155,7 +167,13 @@ class _LoginPageState extends State<LoginPage> {
     String firstName = profile['firstName'];
     logger.fine('First name: ' + firstName);
     logger.fine('SUCCESSFUL LOGIN!');
-    Navigator.pushNamed(context, RestaurantHomePage.tag);
+    //store the auth token to be used in secured requests later 
+    Globals.authToken = Utils.createAuthToken(username, password);
+    int roleId = profile['roleId'];
+    if (roleId == 5)
+      Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
+    else
+      Navigator.pushNamed(context, RestaurantsListPage.tag);
   }
 
   Future<Map> _authUser(String username, String password) async {
@@ -169,13 +187,22 @@ class _LoginPageState extends State<LoginPage> {
       print(response.body);
       if (response.body == null || response.statusCode != 200)
         return null;
-      else
+      else 
         return json.decode(response.body);
+      
         // return compute(parseUser, response.body);
         // compute calls a cast method and doesn't for map
     } catch (ex) {
       logger.severe(ex);
       return null;
     }
+  }
+
+  Map<String, dynamic> _localAuth(String username, String password) {
+    String localConsumer = '{    "email": "stefanesanu1@gmail.com",    "firstName": "Stefan",    "lastName": "Esanu",    "phoneNumber": "0799999999","roleId": 4}';
+    String localManager = '{"email": "contact@citygrill.ro","firstName": "Ioan", "lastName": "Barbu", "phoneNumber": "+40730943111", "roleId": 5}';
+    if (username.contains('manager'))
+      return json.decode(localManager);
+    return json.decode(localConsumer);
   }
 }

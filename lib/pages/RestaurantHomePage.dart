@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
 import 'dart:async';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
-import 'package:hooke/pages/RestaurantsListPage.dart';
 
 class RestaurantHomePage extends StatefulWidget{
     static final String tag = "homepage1";
