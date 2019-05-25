@@ -10,12 +10,12 @@ class RestaurantHomePage extends StatefulWidget{
 class _BasicRestaurantHomePage extends State<RestaurantHomePage> {
 
     Widget _selectedPage;
-
-    void _selectPage(Widget widget) {
-      setState(() {
-        _selectedPage = widget;
-      });
-    }
+    // _switchPage(int pageIndex) {
+    //   setState(() {
+    //     _selectedPage = pages[pageIndex];
+    //     _selectedPageIndex = pageIndex;
+    //   });
+    // }
    
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,7 @@ class _BasicRestaurantHomePage extends State<RestaurantHomePage> {
 
               onTap: () {
                 Navigator.of(context).pop();
-                 _selectPage(RestaurantsListPage());
+                
               }
                  
             ),
