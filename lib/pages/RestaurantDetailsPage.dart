@@ -5,23 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:hooke/models/Table.dart' as HookeTable;
+import 'package:hooke/models/RestaurantTable.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   static String tag = 'restaurant'; 
 
   RestaurantDetailsPage({Key key}) : super(key: key);
 
-  Future<List<HookeTable.Table>> fetchRestaurantTables(restaurantId) async {
+  Future<List<RestaurantTable>> fetchRestaurantTables(restaurantId) async {
     http.Client client = http.Client();
-    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId,
+    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId + '/tables',
                                       headers: {'APP_TOKEN' : Constants.APP_TOKEN});
-    return compute<String, List<HookeTable.Table>> (parseTables, response.body);
+    return compute<String, List<RestaurantTable>> (parseTables, response.body);
   }
 
-  List<HookeTable.Table> parseTables(String responseBody) {
+  List<RestaurantTable> parseTables(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<HookeTable.Table>((json) => HookeTable.Table.fromJson(json)).toList();
+    return parsed.map<RestaurantTable>((json) => RestaurantTable.fromJson(json)).toList();
   }
 
   @override
