@@ -9,6 +9,7 @@ class RestaurantTable {
   RestaurantTable({this.id, this.restaurantId, this.number, this.name, this.description, this.maxSeats});
 
   factory RestaurantTable.fromJson(Map<String, dynamic> json) { 
+    print(json);
     return RestaurantTable(
       id: int.parse(json['id']),
       restaurantId: int.parse(json['restaurantId']),

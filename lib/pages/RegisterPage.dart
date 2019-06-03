@@ -162,7 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
           if (value.isEmpty) {
             return 'Please enter your email!';
           }
-          else if (!Utils.isEmailValid(value.trim()))
+          else if (!Utils.instance.isEmailValid(value.trim()))
             return 'Invalid email!';
         },
         decoration: InputDecoration(
@@ -261,7 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
       headers: {
         'Content-Type': 'application/json',
         'APP_TOKEN': Constants.APP_TOKEN,
-        'Authorization': Constants.AUTH_HEADER_PREFIX + Utils.createAuthToken(username, password)
+        'Authorization': Constants.AUTH_HEADER_PREFIX + Utils.instance.createAuthToken(username, password)
       },
       body: json.encode(profileData));
     // print(response.body);

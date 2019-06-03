@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hooke/pages/AdminHomePage.dart';
+import 'package:hooke/manager_pages/AdminHomePage.dart';
 import 'package:hooke/pages/HomePage.dart';
 import 'package:hooke/pages/LoginPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';

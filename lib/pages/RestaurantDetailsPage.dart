@@ -27,7 +27,7 @@ class RestaurantDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final Restaurant restaurant = ModalRoute.of(context).settings.arguments;
+    final Restaurant restaurant = ModalRoute.of(context).settings.arguments; 
 
     final tables = fetchRestaurantTables(restaurant.id);
 
@@ -77,7 +77,7 @@ class RestaurantDetailsPage extends StatelessWidget {
       ],
     );
 
-    final tablesPage = FutureBuilder<List<HookeTable.Table>>(
+    final tablesPage = FutureBuilder<List<RestaurantTable>>(
       future: tables,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -121,7 +121,7 @@ class RestaurantDetailsPage extends StatelessWidget {
 
 class _TablesList extends StatelessWidget {
   
-  final List<HookeTable.Table> tables;
+  final List<RestaurantTable> tables;
 
   _TablesList({Key key, this.tables}) : super(key: key);
   

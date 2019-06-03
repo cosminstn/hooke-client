@@ -1,36 +1,19 @@
-import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
-import 'package:hooke/utils/Constants.dart';
-import 'package:hooke/utils/Globals.dart';
-import 'package:http/http.dart' as http;
+import 'package:hooke/utils/Utils.dart';
+
 
 class ConfigureRestaurantDetailsPage extends StatelessWidget {
-  Future<Restaurant> fetchRestaurantByCreator() async {
-    http.Client client = http.Client();
-    final response = await client
-        .get(Constants.API_BASE_URL + '/pub/restaurants/bycreator', headers: {
-      'APP_TOKEN': Constants.APP_TOKEN,
-      'Authorization': Globals.authToken
-    }).timeout(Duration(seconds: 3));
-    return compute(parseSingleRestaurant, response.body);
-  }
-
-  static Restaurant parseSingleRestaurant(String responseBody) {
-    print(responseBody);
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return Restaurant.fromJson(parsed);
-  }
 
   static final String tag = 'conf-rest-details';
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Restaurant>(
-        future: fetchRestaurantByCreator(),
+        future: Utils.instance.fetchRestaurantByCreator(),
         builder: (context, snapshot) {
           if (snapshot.hasError) throw Exception('${snapshot.error}');
           return snapshot.hasData
