@@ -11,9 +11,9 @@ class RestaurantTable {
   factory RestaurantTable.fromJson(Map<String, dynamic> json) { 
     print(json);
     return RestaurantTable(
-      id: int.parse(json['id']),
-      restaurantId: int.parse(json['restaurantId']),
-      number: int.parse(json['number']),
+      id: json['id'],
+      restaurantId: json['restaurantId'],
+      number: json['number'],
       name: json['name'],
       description: json['description'],
       maxSeats: json['maxSeats']

@@ -44,24 +44,17 @@ class Utils {
     } catch (ex) {
       return null;
     }
-    
-  }
-
-  Restaurant parseSingleRestaurant(String responseBody) {
-    print(responseBody);
-
-    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return Restaurant.fromJson(parsed);
   }
   
-  Future<List<RestaurantTable>> fetchRestaurantTables(restaurantId) async {
+  Future<List<RestaurantTable>> fetchRestaurantTables(int restaurantId) async {
     http.Client client = http.Client();
-    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId + '/tables',
+    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId.toString() 
+                                      + '/tables',
                                       headers: {'APP_TOKEN' : Constants.APP_TOKEN});
-    return compute<String, List<RestaurantTable>> (parseTables, response.body);
+    return compute<String, List<RestaurantTable>>(parseTables, response.body);
   }
 
-  List<RestaurantTable> parseTables(String responseBody) {
+  static List<RestaurantTable> parseTables(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<RestaurantTable>((json) => RestaurantTable.fromJson(json)).toList();
   }

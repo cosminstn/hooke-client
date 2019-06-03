@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/utils/Utils.dart';
-
+import 'package:hooke/utils/Globals.dart';
 
 class ConfigureRestaurantDetailsPage extends StatelessWidget {
 
@@ -25,9 +25,10 @@ class ConfigureRestaurantDetailsPage extends StatelessWidget {
 
 class _RestaurantDetailsForm extends StatefulWidget {
   final Restaurant dbRestaurantInstance;
-
-  _RestaurantDetailsForm({Key key, this.dbRestaurantInstance})
-      : super(key: key);
+  
+  _RestaurantDetailsForm({Key key, this.dbRestaurantInstance}) : super(key: key) {
+    Globals.currentManagerRestaurant = dbRestaurantInstance;
+  }
 
   @override
   _RestaurantDetailsFormState createState() => _RestaurantDetailsFormState();

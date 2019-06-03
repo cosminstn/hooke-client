@@ -63,6 +63,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
               selected: _selectedPageIndex == 1
             ),
             ListTile(
+              title: Text("Istoric rezervari", style: TextStyle(fontSize: 16)),
+              leading: Icon(Icons.receipt, color: Theme.of(context).accentColor),
+              onTap: () {
+                Navigator.of(context).pop();
+                _switchPage(1);
+              },
+              selected: _selectedPageIndex == 1
+            ),
+            ListTile(
               title: Text("Configurare meniu", style: TextStyle(fontSize: 16)),
               leading: Icon(Icons.restaurant, color: Theme.of(context).accentColor),
               onTap: () {

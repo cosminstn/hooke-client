@@ -6,6 +6,7 @@ import 'package:hooke/pages/PhotosPage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
+import 'package:hooke/manager_pages/EditTablePage.dart';
 
 class Routes {
 
@@ -17,6 +18,7 @@ class Routes {
       PhotosPage.tag: (context) => PhotosPage(),
       RestaurantsListPage.tag: (context) => RestaurantsListPage(),
       AdminHomePage.tag: (context) => AdminHomePage(),
+      EditTablePage.tag: (context) => EditTablePage(),
       '/logout':     (context) => LoginPage()
     };
 

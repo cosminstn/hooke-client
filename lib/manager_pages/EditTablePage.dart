@@ -1,37 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:hooke/models/RestaurantTable.dart';
 import 'package:hooke/utils/FormOperatingModes.dart';
-
+import 'package:hooke/utils/Routes.dart';
 
 class EditTablePage extends StatefulWidget {
-
   static String tag = 'edit-table-page';
+
+  EditTablePage({Key key}) : super(key: key);
 
   @override
   _EditTablePageState createState() => new _EditTablePageState();
 }
 
 class _EditTablePageState extends State<EditTablePage> {
-
   final idController = TextEditingController();
   final numberController = TextEditingController();
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
   final maxSeatsController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+
   FormOperatingModes mode;
 
   @override
   Widget build(BuildContext context) {
+    final RestaurantTable initialValue =
+        ModalRoute.of(context).settings.arguments;
 
-      final RestaurantTable initialValue = ModalRoute.of(context).settings.arguments;
-      
-      if (initialValue == null) 
-        this.mode = FormOperatingModes.NEW;
-      else
-        this.mode = FormOperatingModes.UPDATE_OR_DELETE;
+    if (initialValue == null)
+      this.mode = FormOperatingModes.NEW;
+    else
+      this.mode = FormOperatingModes.UPDATE_OR_DELETE;
 
-      final idField = Padding(
+    final idField = Padding(
         padding: EdgeInsets.only(top: 12),
         child: TextFormField(
           keyboardType: TextInputType.number,
@@ -40,12 +42,13 @@ class _EditTablePageState extends State<EditTablePage> {
           enabled: false,
           style: TextStyle(fontSize: 18),
           decoration: InputDecoration(
+              labelText: 'Table id',
               contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-        )
-      );
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+        ));
 
-      final numberField = Padding(
+    final numberField = Padding(
         padding: EdgeInsets.only(top: 12),
         child: TextFormField(
           keyboardType: TextInputType.number,
@@ -57,22 +60,18 @@ class _EditTablePageState extends State<EditTablePage> {
               return 'Table number required!';
             }
             int iValue = int.tryParse(value);
-            if (iValue == null)
-              return "Invalid table number";  //parsing failed
-            if (iValue < 0 || iValue > 50)
-              return "Invalid table number";
-
-
+            if (iValue == null) return "Invalid table number"; //parsing failed
+            if (iValue < 0 || iValue > 50) return "Invalid table number";
           },
           decoration: InputDecoration(
               labelText: 'Enter the table number',
               hintText: '4',
               contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-        )
-      );
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+        ));
 
-      final nameField = Padding(
+    final nameField = Padding(
         padding: EdgeInsets.only(top: 12),
         child: TextFormField(
           keyboardType: TextInputType.text,
@@ -91,11 +90,11 @@ class _EditTablePageState extends State<EditTablePage> {
               labelText: 'Enter the table name',
               hintText: 'Love table',
               contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-        )
-      );
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+        ));
 
-      final descriptionField = Padding(
+    final descriptionField = Padding(
         padding: EdgeInsets.only(top: 12),
         child: TextFormField(
           keyboardType: TextInputType.text,
@@ -106,47 +105,49 @@ class _EditTablePageState extends State<EditTablePage> {
               labelText: 'Enter the table description',
               hintText: 'Perfect for couples',
               contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-        )
-      );
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+        ));
 
-      final maxSeatsField = Padding(
+    final maxSeatsField = Padding(
         padding: EdgeInsets.only(top: 12),
         child: TextFormField(
           keyboardType: TextInputType.number,
           autofocus: false,
-          
           controller: maxSeatsController,
           style: TextStyle(fontSize: 18),
           decoration: InputDecoration(
               labelText: 'Enter the table max seats',
               hintText: '3',
               contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
-        )
-      );
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
+        ));
 
-      List<Widget> children = List<Widget>();
+    List<Widget> children = List<Widget>();
 
-      children.add(numberField);
-      children.add(nameField);
-      children.add(descriptionField);
-      children.add(maxSeatsField);
+    children.add(numberField);
+    children.add(nameField);
+    children.add(descriptionField);
+    children.add(maxSeatsField);
 
-      String formTitle = 'Register a table';
+    String formTitle = 'Register a table';
 
-      if (this.mode == FormOperatingModes.UPDATE_OR_DELETE) {
-        idController.text           = initialValue.id.toString();
-        numberController.text       = initialValue.number.toString();
-        nameController.text         = initialValue.name;
-        descriptionController.text  = initialValue.description ?? '';
-        maxSeatsController.text     = initialValue.maxSeats.toString();
-      
-        children.add(idField);
-      }
+    if (this.mode == FormOperatingModes.UPDATE_OR_DELETE) {
+      idController.text = initialValue.id.toString();
+      numberController.text = initialValue.number.toString();
+      nameController.text = initialValue.name;
+      descriptionController.text = initialValue.description ?? '';
+      maxSeatsController.text = initialValue.maxSeats.toString();
 
-      
+      children.insert(0, idField);
+      formTitle = 'Update table ' + initialValue.number.toString();
+    }
+
+    return Scaffold(
+        appBar: AppBar(title: Text(formTitle)),
+        body: Padding(
+            padding: EdgeInsets.all(10),
+            child: Form(key: _formKey, child: ListView(children: children))));
   }
-  
-
 }
