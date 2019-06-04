@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 Future<Restaurant> fetchRestaurant(int restaurantId) async {
   print('fetching restaurant...');
-  final response = await http.get('http://192.168.10.37:8080/HookeRestApi/webapi/pub/restaurants/' +
+  final response = await http.get('http://89.45.197.204:8080/HookeRestApi/webapi/pub/restaurants/' +
                 restaurantId.toString(),
                 headers: {'APP_TOKEN': 'oL15cdd88Jdzheq8rXttYmuv3fO6jTg5EyX149YorZG12J0mHrp5UPNjjr6jVVkq'});
 

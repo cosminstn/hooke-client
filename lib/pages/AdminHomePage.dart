@@ -36,7 +36,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
     final Map<String, dynamic> profile = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
-      appBar: AppBar(title: Text('hooke')),
+      appBar: AppBar(title: Text('hooke')
+      ),
       drawer: Drawer(
         child: ListView(
           children: <Widget>[

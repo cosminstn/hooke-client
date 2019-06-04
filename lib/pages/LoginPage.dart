@@ -173,7 +173,8 @@ class _LoginPageState extends State<LoginPage> {
     if (roleId == 5)
       Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
     else
-      Navigator.pushNamed(context, RestaurantsListPage.tag);
+     Navigator.pushNamed(context, RestaurantHomePage.tag, arguments:profile);
+     //Navigator.pushNamed(context, RestaurantsListPage.tag);
   }
 
   Future<Map> _authUser(String username, String password) async {
