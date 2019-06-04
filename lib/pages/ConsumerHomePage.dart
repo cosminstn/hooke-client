@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
 
 import 'RestaurantsListPage.dart';
 //import 'package:hooke/models/Restaurant.dart';
 
-class RestaurantHomePage extends StatefulWidget {
+class ConsumerHomePage extends StatefulWidget {
   static final String tag = 'homepage1';
 
   @override
-  _RestaurantHomePageState createState() => _RestaurantHomePageState();
+  _ConsumerHomePageState createState() => _ConsumerHomePageState();
 }
 
 
-class _RestaurantHomePageState extends State<RestaurantHomePage> {
+class _ConsumerHomePageState extends State<ConsumerHomePage> {
   final List<Widget> pages = [RestaurantsListPage(),
                              PhotosPage()];
 

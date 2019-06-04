@@ -5,7 +5,7 @@ import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/manager_pages/AdminHomePage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
-import 'package:hooke/pages/RestaurantHomePage.dart';
+import 'package:hooke/pages/ConsumerHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Globals.dart';
@@ -164,13 +164,14 @@ class _LoginPageState extends State<LoginPage> {
       String firstName = profile['firstName'];
       logger.fine('First name: ' + firstName);
       logger.fine('SUCCESSFUL LOGIN!');
+
       //store the auth token to be used in secured requests later 
       Globals.authToken = Utils.instance.createAuthToken(username, password);
       int roleId = profile['roleId'];
       if (roleId == 4)
         Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
       else
-        Navigator.pushNamed(context, RestaurantsListPage.tag);
+        Navigator.pushNamed(context, ConsumerHomePage.tag, arguments: profile);
     }
   }
 
@@ -187,9 +188,6 @@ class _LoginPageState extends State<LoginPage> {
         return null;
       else 
         return json.decode(response.body);
-      
-        // return compute(parseUser, response.body);
-        // compute calls a cast method and doesn't work for map
     } catch (ex) {
       logger.severe(ex);
       return null;
