@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hooke/pages/AdminHomePage.dart';
+import 'package:hooke/manager_pages/AdminHomePage.dart';
 import 'package:hooke/pages/HomePage.dart';
 import 'package:hooke/pages/LoginPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
@@ -7,6 +7,7 @@ import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/RestaurantHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
+import 'package:hooke/manager_pages/EditTablePage.dart';
 
 
 class Routes {
@@ -21,6 +22,7 @@ class Routes {
       RestaurantsListPage.tag: (context) => RestaurantsListPage(),
       RestaurantHomePage.tag: (context) => RestaurantHomePage(),
       AdminHomePage.tag: (context) => AdminHomePage(),
+      EditTablePage.tag: (context) => EditTablePage(),
       '/logout':     (context) => LoginPage()
     };
 

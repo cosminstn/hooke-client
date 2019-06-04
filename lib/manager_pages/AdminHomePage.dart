@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooke/manager_pages/ConfigureRestaurantDetailsPage.dart';
-import 'package:hooke/manager_pages/CreateTablePage.dart';
+import 'package:hooke/manager_pages/ConfigureRestaurantTablesPage.dart';
 import 'package:hooke/manager_pages/ActiveReservationsPage.dart';
 import 'package:hooke/manager_pages/ConfigureRestaurantMenuPage.dart';
 
@@ -17,7 +17,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     ConfigureRestaurantDetailsPage(), 
     ActiveReservationsPage(),
     ConfigureRestaurantMenuPage(),
-    CreateTablePage()
+    ConfigureRestaurantTablesPage()
   ];
 
   Widget _selectedPage = ConfigureRestaurantDetailsPage();
@@ -55,6 +55,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
             ),
             ListTile(
               title: Text("Rezervari active", style: TextStyle(fontSize: 16)),
+              leading: Icon(Icons.receipt, color: Theme.of(context).accentColor),
+              onTap: () {
+                Navigator.of(context).pop();
+                _switchPage(1);
+              },
+              selected: _selectedPageIndex == 1
+            ),
+            ListTile(
+              title: Text("Istoric rezervari", style: TextStyle(fontSize: 16)),
               leading: Icon(Icons.receipt, color: Theme.of(context).accentColor),
               onTap: () {
                 Navigator.of(context).pop();

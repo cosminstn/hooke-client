@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:http/http.dart' as http;
-import 'package:hooke/models/Table.dart' as HookeTable;
+import 'package:hooke/models/RestaurantTable.dart';
 
 
 class RestaurantDetailsPage extends StatelessWidget {
@@ -13,22 +13,32 @@ class RestaurantDetailsPage extends StatelessWidget {
 
   RestaurantDetailsPage({Key key}) : super(key: key);
 
+<<<<<<< HEAD
   Future<List<HookeTable.Table>> fetchRestaurantTables(int restaurantId) async {
     http.Client client = http.Client();
     final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId.toString() + '/tables',
+=======
+  Future<List<RestaurantTable>> fetchRestaurantTables(restaurantId) async {
+    http.Client client = http.Client();
+    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId + '/tables',
+>>>>>>> adminHUD
                                       headers: {'APP_TOKEN' : Constants.APP_TOKEN});
-    return compute<String, List<HookeTable.Table>> (parseTables, response.body);
+    return compute<String, List<RestaurantTable>> (parseTables, response.body);
   }
 
+<<<<<<< HEAD
   static List<HookeTable.Table> parseTables(String responseBody) {
+=======
+  List<RestaurantTable> parseTables(String responseBody) {
+>>>>>>> adminHUD
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
-    return parsed.map<HookeTable.Table>((json) => HookeTable.Table.fromJson(json)).toList();
+    return parsed.map<RestaurantTable>((json) => RestaurantTable.fromJson(json)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final Restaurant restaurant = ModalRoute.of(context).settings.arguments;
+    final Restaurant restaurant = ModalRoute.of(context).settings.arguments; 
 
     final tables = fetchRestaurantTables(restaurant.id);
 
@@ -78,7 +88,7 @@ class RestaurantDetailsPage extends StatelessWidget {
       ],
     );
 
-    final tablesPage = FutureBuilder<List<HookeTable.Table>>(
+    final tablesPage = FutureBuilder<List<RestaurantTable>>(
       future: tables,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -121,8 +131,7 @@ class RestaurantDetailsPage extends StatelessWidget {
 }
 
 class _TablesList extends StatelessWidget {
-  
-  final List<HookeTable.Table> tables;
+  final List<RestaurantTable> tables;
 
   _TablesList({Key key, this.tables}) : super(key: key);
   double _volume=0.0;

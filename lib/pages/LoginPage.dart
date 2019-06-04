@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hooke/common_widgets/HookeLogoText.dart';
 import 'package:hooke/common_widgets/HookeLogo.dart';
-import 'package:hooke/pages/AdminHomePage.dart';
+import 'package:hooke/manager_pages/AdminHomePage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/RestaurantHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
@@ -149,11 +149,7 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       _inProgress = true; 
     });
-    var profile;
-    if (Constants.LOCAL_DEV_MODE == false)
-      profile = await _authUser(username, password);
-    else
-      profile = _localAuth(username, password);
+    var profile = await _authUser(username, password);
     setState(() {
       _inProgress = false;
     });
@@ -164,16 +160,18 @@ class _LoginPageState extends State<LoginPage> {
           return AlertDialog(content: Text('Invalid account'));
         }
       );
-    String firstName = profile['firstName'];
-    logger.fine('First name: ' + firstName);
-    logger.fine('SUCCESSFUL LOGIN!');
-    //store the auth token to be used in secured requests later 
-    Globals.authToken = Utils.createAuthToken(username, password);
-    int roleId = profile['roleId'];
-    if (roleId == 5)
-      Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
-    else
-      Navigator.pushNamed(context, RestaurantsListPage.tag);
+    else {
+      String firstName = profile['firstName'];
+      logger.fine('First name: ' + firstName);
+      logger.fine('SUCCESSFUL LOGIN!');
+      //store the auth token to be used in secured requests later 
+      Globals.authToken = Utils.instance.createAuthToken(username, password);
+      int roleId = profile['roleId'];
+      if (roleId == 4)
+        Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
+      else
+        Navigator.pushNamed(context, RestaurantsListPage.tag);
+    }
   }
 
   Future<Map> _authUser(String username, String password) async {
@@ -182,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
       final response = await client.get(Constants.API_BASE_URL + '/pub/auth/',
                                       headers: {
                                         'APP_TOKEN' : Constants.APP_TOKEN,
-                                        'Authorization' : Utils.createAuthToken(username, password)
+                                        'Authorization' : Utils.instance.createAuthToken(username, password)
                                       }).timeout(const Duration(seconds: 3));
       print(response.body);
       if (response.body == null || response.statusCode != 200)
@@ -191,18 +189,10 @@ class _LoginPageState extends State<LoginPage> {
         return json.decode(response.body);
       
         // return compute(parseUser, response.body);
-        // compute calls a cast method and doesn't for map
+        // compute calls a cast method and doesn't work for map
     } catch (ex) {
       logger.severe(ex);
       return null;
     }
-  }
-
-  Map<String, dynamic> _localAuth(String username, String password) {
-    String localConsumer = '{    "email": "stefanesanu1@gmail.com",    "firstName": "Stefan",    "lastName": "Esanu",    "phoneNumber": "0799999999","roleId": 4}';
-    String localManager = '{"email": "contact@citygrill.ro","firstName": "Ioan", "lastName": "Barbu", "phoneNumber": "+40730943111", "roleId": 5}';
-    if (username.contains('manager'))
-      return json.decode(localManager);
-    return json.decode(localConsumer);
   }
 }
