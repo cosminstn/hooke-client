@@ -120,7 +120,6 @@ class RestaurantDetailsPage extends StatelessWidget {
 }
 
 class _TablesList extends StatelessWidget {
-  
   final List<RestaurantTable> tables;
 
   _TablesList({Key key, this.tables}) : super(key: key);

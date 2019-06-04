@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:hooke/models/Restaurant.dart';
-import 'dart:async';
-import 'package:hooke/pages/RestaurantDetailsPage.dart';
 
 class BasicAppBarSample extends StatefulWidget {
   @override
   _BasicAppBarSampleState createState() => _BasicAppBarSampleState();
 }
-
 
 class _BasicAppBarSampleState extends State<BasicAppBarSample> {
   Choice _selectedChoice = choices[0]; // The app's "state".
@@ -32,29 +28,28 @@ class _BasicAppBarSampleState extends State<BasicAppBarSample> {
               child: Text("MENU"),
               fillColor: Colors.green,
               splashColor: Colors.lightGreen,
-               onPressed: () {
+              onPressed: () {
                 _select(choices[0]);
-               },
+              },
             ),
             // action button
             RawMaterialButton(
-               child: Text("RESERVATION"),
+              child: Text("RESERVATION"),
               fillColor: Colors.green,
               splashColor: Colors.lightGreen,
-              
               onPressed: () {
-               // _select(choices[1]);
+                // _select(choices[1]);
               },
             ),
-             RawMaterialButton(
-               child: Text("CANCELLATION"),
+            RawMaterialButton(
+              child: Text("CANCELLATION"),
               fillColor: Colors.green,
               splashColor: Colors.redAccent,
               onPressed: () {
-               // _select(choices[1]);
+                // _select(choices[1]);
               },
             ),
-            
+
             // overflow menu
             // PopupMenuButton<Choice>(
             //    child: Text("RESERVATION"),
@@ -86,16 +81,21 @@ class _BasicAppBarSampleState extends State<BasicAppBarSample> {
 //   final IconData icon;
 // }
 
-class Choice{
-   const Choice({this.imageUrl,this.name, this.description,this.price});
+class Choice {
+  const Choice({this.imageUrl, this.name, this.description, this.price});
 
   final String imageUrl;
   final String name;
   final String description;
   final String price;
 }
+
 const List<Choice> choices = const <Choice>[
-  const Choice(imageUrl: "https://picsum.photos/250?image=9",name:"Pizza Hawai", description: "sos rosii, mozarella, sunca, ananas",price:"30 lei"),
+  const Choice(
+      imageUrl: "https://picsum.photos/250?image=9",
+      name: "Pizza Hawai",
+      description: "sos rosii, mozarella, sunca, ananas",
+      price: "30 lei"),
   // const Choice(title: 'Bicycle', icon: Icons.directions_bike),
   // const Choice(title: 'Boat', icon: Icons.directions_boat),
   // const Choice(title: 'Bus', icon: Icons.directions_bus),
@@ -113,25 +113,23 @@ class ChoiceCard extends StatelessWidget {
     final TextStyle textStyle = Theme.of(context).textTheme.display1;
     return Card(
       color: Colors.white,
-      
-        child: Row(        
-         // mainAxisSize: MainAxisSize.min,
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            new Column(
-              children: <Widget>[
-                new Container(
-                  child: new Text('https://picsum.photos/250?image=9'),
-                )
-              ],
-            )
-           // Image.network('https://picsum.photos/250?image=9'),        
-          ],
-        ),     
+      child: Row(
+        // mainAxisSize: MainAxisSize.min,
+        //crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          new Column(
+            children: <Widget>[
+              new Container(
+                child: new Text('https://picsum.photos/250?image=9'),
+              )
+            ],
+          )
+          // Image.network('https://picsum.photos/250?image=9'),
+        ],
+      ),
     );
   }
 }
-
 
 void main() {
   runApp(BasicAppBarSample());
