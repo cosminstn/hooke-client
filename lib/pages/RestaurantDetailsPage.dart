@@ -10,7 +10,7 @@ import 'package:hooke/models/RestaurantTable.dart';
 
 class RestaurantDetailsPage extends StatelessWidget {
   static String tag = 'restaurant'; 
-
+    
   RestaurantDetailsPage({Key key}) : super(key: key);
 
   Future<List<RestaurantTable>> fetchRestaurantTables(restaurantId) async {
@@ -107,6 +107,7 @@ class RestaurantDetailsPage extends StatelessWidget {
             ),
             title: Text(restaurant.name),
           ),
+          
           body: TabBarView(
             children: [
               aboutPage,

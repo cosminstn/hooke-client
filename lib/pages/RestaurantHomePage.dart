@@ -1,128 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:hooke/pages/RestaurantDetailsPage.dart';
+import 'package:hooke/pages/PhotosPage.dart';
 
-class RestaurantHomePage extends StatefulWidget{
-    static final String tag = "homepage1";
-  _BasicRestaurantHomePage createState()=> _BasicRestaurantHomePage();
+import 'RestaurantsListPage.dart';
+//import 'package:hooke/models/Restaurant.dart';
+
+class RestaurantHomePage extends StatefulWidget {
+  static final String tag = 'homepage1';
+
+  @override
+  _RestaurantHomePageState createState() => _RestaurantHomePageState();
 }
-class _BasicRestaurantHomePage extends State<RestaurantHomePage> {
 
-class _BasicAppBarSampleState extends State<BasicAppBarSample> {
-  Choice _selectedChoice = choices[0]; // The app's "state".
 
-  void _select(Choice choice) {
-    // Causes the app to rebuild with the new _selectedChoice.
+class _RestaurantHomePageState extends State<RestaurantHomePage> {
+  final List<Widget> pages = [RestaurantsListPage(),
+                             PhotosPage()];
+
+  Widget _selectedPage = RestaurantsListPage();
+  int _selectedPageIndex = 0;
+
+  _switchPage(int pageIndex) {
     setState(() {
-      _selectedChoice = choice;
+       _selectedPageIndex = pageIndex;
+      _selectedPage = pages[pageIndex];
     });
   }
 
   @override
   Widget build(BuildContext context) {
+   //   final Restaurant restaurant = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> profile =
+        ModalRoute.of(context).settings.arguments;
+
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Welcome!'),
-          backgroundColor: Colors.green,
-          actions: <Widget>[
-            // action button
-            RawMaterialButton(
-              child: Text("MENU"),
-              fillColor: Colors.green,
-              splashColor: Colors.lightGreen,
-              onPressed: () {
-                _select(choices[0]);
-              },
-            ),
-            // action button
-            RawMaterialButton(
-              child: Text("RESERVATION"),
-              fillColor: Colors.green,
-              splashColor: Colors.lightGreen,
-              onPressed: () {
-                // _select(choices[1]);
-              },
-            ),
-            RawMaterialButton(
-              child: Text("CANCELLATION"),
-              fillColor: Colors.green,
-              splashColor: Colors.redAccent,
-              onPressed: () {
-                // _select(choices[1]);
-              },
-            ),
-
-            // overflow menu
-            // PopupMenuButton<Choice>(
-            //    child: Text("RESERVATION"),
-            //   onSelected: _select,
-            //   itemBuilder: (BuildContext context) {
-            //     return choices.skip(2).map((Choice choice) {
-            //       return PopupMenuItem<Choice>(
-            //         value: choice,
-            //         child: Text(choice.title),
-            //       );
-            //     }).toList();
-            //   },
-            //),
-          ],
-        ),
-      ),
-      body: _selectedPage
-      //this will just add the Navigation Drawer Icon
-    );
+        theme: ThemeData(
+            primarySwatch: Colors.red, backgroundColor: Colors.black54),
+        home: DefaultTabController(
+            length: 3,
+            child: Scaffold(
+                appBar: AppBar(
+                  bottom: TabBar(
+                    tabs: <Widget>[
+                      Tab(
+                        icon: Icon(Icons.info),
+                        text: 'Despre',
+                      ),
+                      Tab(
+                        icon: Icon(Icons.restaurant_menu),
+                        text: 'Meniu',
+                      ),
+                      Tab(
+                        icon: Icon(Icons.table_chart),
+                        text: 'Mese',
+                      )
+                    ],
+                  ),
+                  title: Text("Hooke"),
+                ),
+                drawer: Drawer(
+                    child: ListView(
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      accountName: Text(profile['firstName'],
+                          style: TextStyle(fontSize: 18)),
+                      accountEmail: Text(profile['email'],
+                          style: TextStyle(fontSize: 16)),
+                    ),
+                    ListTile(
+                        title: Text("Lista restaurante",
+                            style: TextStyle(fontSize: 16)),
+                        leading: Icon(Icons.restaurant,
+                            color: Theme.of(context).accentColor),
+                        onTap: () {
+                         // Navigator.of(context).pop();
+                          _switchPage(0);
+                        },
+                        selected: _selectedPageIndex == 0),
+                    ListTile(
+                        title: Text("Istoric comenzi",
+                            style: TextStyle(fontSize: 16)),
+                        leading: Icon(Icons.history,
+                            color: Theme.of(context).accentColor),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          _switchPage(0);
+                        },
+                        selected: _selectedPageIndex == 0),
+                    ListTile(
+                        title: Text("Log out", style: TextStyle(fontSize: 16)),
+                        leading: Icon(Icons.settings,
+                            color: Theme.of(context).accentColor),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          //_switchPage(0);
+                        },
+                        selected: _selectedPageIndex == 0)
+                  ],
+                )),
+                body: _selectedPage)));
   }
-//   @override}
-}
-
-
-
-class Choice {
-  const Choice({this.imageUrl, this.name, this.description, this.price});
-
-  final String imageUrl;
-  final String name;
-  final String description;
-  final String price;
-}
-
-const List<Choice> choices = const <Choice>[
-  const Choice(
-      imageUrl: "https://picsum.photos/250?image=9",
-      name: "Pizza Hawai",
-      description: "sos rosii, mozarella, sunca, ananas",
-      price: "30 lei"),
-  // const Choice(title: 'Bicycle', icon: Icons.directions_bike),
-  // const Choice(title: 'Boat', icon: Icons.directions_boat),
-  // const Choice(title: 'Bus', icon: Icons.directions_bus),
-  // const Choice(title: 'Train', icon: Icons.directions_railway),
-  // const Choice(title: 'Walk', icon: Icons.directions_walk),
-];
-
-
-
-  @override
-  Widget build(BuildContext context) {
-    final TextStyle textStyle = Theme.of(context).textTheme.display1;
-    return Card(
-      color: Colors.white,
-      child: Row(
-        // mainAxisSize: MainAxisSize.min,
-        //crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          new Column(
-            children: <Widget>[
-              new Container(
-                child: new Text('https://picsum.photos/250?image=9'),
-              )
-            ],
-          )
-          // Image.network('https://picsum.photos/250?image=9'),
-        ],
-      ),
-    );
-  }
-}
-
-void main() {
-  runApp(BasicAppBarSample());
+  
 }

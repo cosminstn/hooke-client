@@ -27,20 +27,16 @@ class RestaurantsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Lista restaurante'),
-        ),
-        body: FutureBuilder<List<Restaurant>>(
-            future: fetchRestaurants(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                throw Exception('${snapshot.error}');
-              }
-              return snapshot.hasData
-                  ? _RestaurantsList(restaurants: snapshot.data)
-                  : Center(child: CircularProgressIndicator());
-            }));
+    return FutureBuilder<List<Restaurant>>(
+        future: fetchRestaurants(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            throw Exception('${snapshot.error}');
+          }
+          return snapshot.hasData
+              ? _RestaurantsList(restaurants: snapshot.data)
+              : Center(child: CircularProgressIndicator());
+        });
   }
 }
 
