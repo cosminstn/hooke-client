@@ -13,24 +13,14 @@ class RestaurantDetailsPage extends StatelessWidget {
 
   RestaurantDetailsPage({Key key}) : super(key: key);
 
-<<<<<<< HEAD
-  Future<List<HookeTable.Table>> fetchRestaurantTables(int restaurantId) async {
-    http.Client client = http.Client();
-    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId.toString() + '/tables',
-=======
   Future<List<RestaurantTable>> fetchRestaurantTables(restaurantId) async {
     http.Client client = http.Client();
-    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId + '/tables',
->>>>>>> adminHUD
+    final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + restaurantId.toString() + '/tables',
                                       headers: {'APP_TOKEN' : Constants.APP_TOKEN});
     return compute<String, List<RestaurantTable>> (parseTables, response.body);
   }
 
-<<<<<<< HEAD
-  static List<HookeTable.Table> parseTables(String responseBody) {
-=======
-  List<RestaurantTable> parseTables(String responseBody) {
->>>>>>> adminHUD
+  static List<RestaurantTable> parseTables(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed.map<RestaurantTable>((json) => RestaurantTable.fromJson(json)).toList();
   }
