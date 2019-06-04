@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/PhotosPage.dart';
+import 'package:hooke/utils/Routes.dart';
 
 import 'RestaurantsListPage.dart';
 //import 'package:hooke/models/Restaurant.dart';
@@ -34,28 +35,14 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
         ModalRoute.of(context).settings.arguments;
 
     return MaterialApp(
+        routes: Routes.routes,
         theme: ThemeData(
             primarySwatch: Colors.red, backgroundColor: Colors.black54),
         home: DefaultTabController(
             length: 3,
             child: Scaffold(
                 appBar: AppBar(
-                  bottom: TabBar(
-                    tabs: <Widget>[
-                      Tab(
-                        icon: Icon(Icons.info),
-                        text: 'Despre',
-                      ),
-                      Tab(
-                        icon: Icon(Icons.restaurant_menu),
-                        text: 'Meniu',
-                      ),
-                      Tab(
-                        icon: Icon(Icons.table_chart),
-                        text: 'Mese',
-                      )
-                    ],
-                  ),
+                 
                   title: Text("Hooke"),
                 ),
                 drawer: Drawer(
@@ -100,5 +87,5 @@ class _RestaurantHomePageState extends State<RestaurantHomePage> {
                 )),
                 body: _selectedPage)));
   }
-  
+
 }
