@@ -114,7 +114,8 @@ class _LoginPageState extends State<LoginPage> {
     // usernameController.text = 'cosmin97';
     // passwordController.text = 'abcd1234';
 
-    usernameController.text = 'stefan.esanu';
+    usernameController.text = 'manager_city';
+    //usernameController.text = 'stefan.esanu';
     passwordController.text = 'abcd1234';
 
     return Center(

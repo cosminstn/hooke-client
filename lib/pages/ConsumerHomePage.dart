@@ -58,7 +58,6 @@ class _ConsumerHomePageState extends State<ConsumerHomePage> {
                         leading: Icon(Icons.restaurant,
                             color: Theme.of(context).accentColor),
                         onTap: () {
-                         // Navigator.of(context).pop();
                           _switchPage(0);
                         },
                         selected: _selectedPageIndex == 0),
@@ -78,12 +77,11 @@ class _ConsumerHomePageState extends State<ConsumerHomePage> {
                             color: Theme.of(context).accentColor),
                         onTap: () {
                           Navigator.of(context).pop();
-                          //_switchPage(0);
                         },
                         selected: _selectedPageIndex == 0)
                   ],
                 )),
                 body: _selectedPage)));
-  }
+      }
   
 }
