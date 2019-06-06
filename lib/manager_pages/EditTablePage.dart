@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooke/models/RestaurantTable.dart';
 import 'package:hooke/utils/FormOperatingModes.dart';
-import 'package:hooke/utils/Routes.dart';
 
 class EditTablePage extends StatefulWidget {
   static String tag = 'edit-table-page';
@@ -209,6 +208,6 @@ class _EditTablePageState extends State<EditTablePage> {
   }
 
   Future<bool> deleteTable(int tableId) async {
-
+    
   }
 }

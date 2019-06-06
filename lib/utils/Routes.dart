@@ -7,6 +7,7 @@ import 'package:hooke/pages/RestaurantDetailsPage.dart';
 import 'package:hooke/pages/ConsumerHomePage.dart';
 import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/manager_pages/EditTablePage.dart';
+import 'package:hooke/pages/CreateReservationsPage.dart';
 
 class Routes {
 
@@ -19,6 +20,7 @@ class Routes {
       ConsumerHomePage.tag: (context) => ConsumerHomePage(),
       AdminHomePage.tag: (context) => AdminHomePage(),
       EditTablePage.tag: (context) => EditTablePage(),
+      CreateReservationPage.tag: (context) => CreateReservationPage(),
       '/logout':     (context) => LoginPage()
     };
 

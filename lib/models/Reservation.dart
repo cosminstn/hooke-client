@@ -1,15 +1,13 @@
-import 'package:intl/intl.dart';
-
 class Reservation {
-  final int id;
-	final int userId;
-	final DateTime date;
-	final DateTime startTime;
-	final DateTime endTime;
-	final int nrOfPersons;
-	final int tableId;
-	final int orderId;
-  final bool confirmed;
+  int id;
+	int userId;
+	DateTime date;
+	DateTime startTime;
+	DateTime endTime;
+	int nrOfPersons;
+	int tableId;
+	int orderId;
+  bool confirmed;
 
   Reservation ({this.id, this.userId, this.date, this.startTime, this.endTime, this.nrOfPersons, 
                 this.tableId, this.orderId, this.confirmed});
@@ -28,4 +26,13 @@ class Reservation {
       confirmed: json['confirmed']
     );
   }
+
+  Map toJson() => {
+    'userId': userId,
+    'date': date,
+    'endTime': endTime,
+    'startTime': startTime,
+    'nrOfPersons': nrOfPersons,
+    'tableId': tableId
+  };
 }

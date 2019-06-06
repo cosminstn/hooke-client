@@ -5,6 +5,7 @@ import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/models/RestaurantTable.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'Globals.dart';
 
 
@@ -15,6 +16,9 @@ class Utils {
   static final Utils _instance = Utils._privateConstructor();
 
   static Utils get instance { return _instance; }
+
+  DateFormat dateFormat = DateFormat('dd MMMM yyyy');
+  DateFormat timeFormat = DateFormat('HH:mm:ss');
 
   bool isEmailValid(String email) {
     Pattern pattern =

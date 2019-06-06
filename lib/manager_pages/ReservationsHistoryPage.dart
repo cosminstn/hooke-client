@@ -9,12 +9,12 @@ import 'package:http/http.dart' as http;
 
 import 'ReservationsList.dart';
 
-class ActiveReservationsPage extends StatelessWidget {
+class ReservationsHistoryPage extends StatelessWidget {
 
-  Future<List<Reservation>> fetchActiveReservations() async {
+  Future<List<Reservation>> fetchReservationsHistory() async {
     http.Client client = http.Client();
     final response = await client.get(Constants.API_BASE_URL + '/pub/restaurants/' + 
-        Globals.currentManagerRestaurant.id.toString() + '/reservations',
+        Globals.currentManagerRestaurant.id.toString() + '/reservations/old',
         headers: {'APP_TOKEN' : Constants.APP_TOKEN});
     return compute<String, List<Reservation>>(parseReservations, response.body);
   }
@@ -27,7 +27,7 @@ class ActiveReservationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Reservation>>(
-      future: fetchActiveReservations(),
+      future: fetchReservationsHistory(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           print(snapshot.error);

@@ -6,7 +6,8 @@ import 'package:hooke/models/Restaurant.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:hooke/models/RestaurantTable.dart';
-
+import 'package:hooke/pages/CreateReservationsPage.dart';
+import 'package:hooke/utils/Routes.dart';
 class RestaurantDetailsPage extends StatelessWidget {
   static String tag = 'restaurant';
 
@@ -79,44 +80,50 @@ class RestaurantDetailsPage extends StatelessWidget {
               : Center(child: CircularProgressIndicator());
         });
 
-       // final menuList = FutureBuilder<List<MenuList>>();
+    // final menuList = FutureBuilder<List<MenuList>>();
 
     return MaterialApp(
         theme: ThemeData(
             primarySwatch: Colors.red, backgroundColor: Colors.black54),
         home: DefaultTabController(
-            length: 3,
-            child: Scaffold(
-                appBar: AppBar(
-                  bottom: TabBar(
-                    tabs: <Widget>[
-                      Tab(
-                        icon: Icon(Icons.info),
-                        text: 'Despre',
-                      ),
-                      
-                      Tab(
-                        icon: Icon(Icons.table_chart),
-                        text: 'Mese',
-                      ),
-                      Tab(
-                        icon: Icon(Icons.restaurant_menu),
-                        text: 'Meniu',
-                      )
-                    ],
-                  ),
-                  title: Text(restaurant.name),
-                ),
-                body: TabBarView(
-                  children: [
-                    aboutPage,
-                    tablesPage,
-                    Icon(Icons.directions_bike),
+          length: 3,
+          child: Scaffold(
+              appBar: AppBar(
+                bottom: TabBar(
+                  tabs: <Widget>[
+                    Tab(
+                      icon: Icon(Icons.info),
+                      text: 'Despre',
+                    ),
+                    Tab(
+                      icon: Icon(Icons.table_chart),
+                      text: 'Mese',
+                    ),
+                    Tab(
+                      icon: Icon(Icons.restaurant_menu),
+                      text: 'Meniu',
+                    )
                   ],
-                ))));
+                ),
+                title: Text(restaurant.name),
+              ),
+              body: TabBarView(
+                children: [
+                  aboutPage,
+                  tablesPage,
+                  Icon(Icons.directions_bike),
+                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.pushNamed(context, CreateReservationPage.tag);
+                },
+              ),),
+        ),
+        routes: Routes.routes);
   }
 }
-
 
 class _TablesList extends StatelessWidget {
   final List<RestaurantTable> tables;
@@ -126,40 +133,40 @@ class _TablesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView.builder(
-            itemCount: tables.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                  child: Card(
-                      color: Colors.white24,
-                      child: Theme(
-                          data:
-                              Theme.of(context).copyWith(cardColor: Colors.red),
-                          child: Column(children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-                              child: Text(tables[index].name,
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(15, 5, 10, 0),
-                                child: Text(
-                                    'Nr. masa: ' +
-                                        tables[index].number.toString(),
-                                    style: TextStyle(fontSize: 20))),
-                            Padding(
-                                padding: EdgeInsets.fromLTRB(15, 5, 10, 5),
-                                child: Text(
-                                    'Nr. locuri: ' +
-                                        tables[index].maxSeats.toString(),
-                                    style: TextStyle(fontSize: 20)))
-                          ], crossAxisAlignment: CrossAxisAlignment.start))));
-            }),
-       
-        );
-     }
+      body: ListView.builder(
+          itemCount: tables.length,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, CreateReservationPage.tag, arguments: tables[index]);
+                },
+                child: Card(
+                    color: Colors.white24,
+                    child: Theme(
+                        data: Theme.of(context).copyWith(cardColor: Colors.red),
+                        child: Column(children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                            child: Text(tables[index].name,
+                                style: TextStyle(
+                                    fontSize: 24, fontWeight: FontWeight.bold)),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(15, 5, 10, 0),
+                              child: Text(
+                                  'Nr. masa: ' +
+                                      tables[index].number.toString(),
+                                  style: TextStyle(fontSize: 20))),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(15, 5, 10, 5),
+                              child: Text(
+                                  'Nr. locuri: ' +
+                                      tables[index].maxSeats.toString(),
+                                  style: TextStyle(fontSize: 20)))
+                        ], crossAxisAlignment: CrossAxisAlignment.start))));
+          }),
+    );
+  }
 }
 
 //class _MenuList extends StatelessWidget {

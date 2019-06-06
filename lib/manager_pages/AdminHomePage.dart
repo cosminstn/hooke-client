@@ -3,6 +3,7 @@ import 'package:hooke/manager_pages/ConfigureRestaurantDetailsPage.dart';
 import 'package:hooke/manager_pages/ConfigureRestaurantTablesPage.dart';
 import 'package:hooke/manager_pages/ActiveReservationsPage.dart';
 import 'package:hooke/manager_pages/ConfigureRestaurantMenuPage.dart';
+import 'package:hooke/manager_pages/ReservationsHistoryPage.dart';
 
 class AdminHomePage extends StatefulWidget {
   static final String tag = 'admin_hud';
@@ -16,6 +17,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
   final List<Widget> pages = [
     ConfigureRestaurantDetailsPage(), 
     ActiveReservationsPage(),
+    ReservationsHistoryPage(),
     ConfigureRestaurantMenuPage(),
     ConfigureRestaurantTablesPage()
   ];
@@ -68,9 +70,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
               leading: Icon(Icons.receipt, color: Theme.of(context).accentColor),
               onTap: () {
                 Navigator.of(context).pop();
-                _switchPage(1);
+                _switchPage(2);
               },
-              selected: _selectedPageIndex == 1
+              selected: _selectedPageIndex == 2
             ),
             ListTile(
               title: Text("Configurare meniu", style: TextStyle(fontSize: 16)),
@@ -79,7 +81,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 Navigator.of(context).pop();
                 _switchPage(2);
               },
-              selected: _selectedPageIndex == 2
+              selected: _selectedPageIndex == 3
             ),
             ListTile(
               title: Text("Configurare mese", style: TextStyle(fontSize: 16)),
@@ -88,7 +90,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
                 Navigator.of(context).pop();
                 _switchPage(3);
               },
-              selected: _selectedPageIndex == 3
+              selected: _selectedPageIndex == 4
             )
           ],
         )

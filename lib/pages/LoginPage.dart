@@ -6,7 +6,6 @@ import 'package:hooke/common_widgets/HookeLogo.dart';
 import 'package:hooke/manager_pages/AdminHomePage.dart';
 import 'package:hooke/pages/RegisterPage.dart';
 import 'package:hooke/pages/ConsumerHomePage.dart';
-import 'package:hooke/pages/RestaurantsListPage.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Globals.dart';
 import 'package:hooke/utils/Utils.dart';
@@ -108,14 +107,8 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.pushNamed(context, RegisterPage.tag);
           },
         ));
-    usernameController.text="anamaria";
-    passwordController.text="parolaapp";
 
-    // usernameController.text = 'cosmin97';
-    // passwordController.text = 'abcd1234';
-
-    usernameController.text = 'manager_city';
-    //usernameController.text = 'stefan.esanu';
+    usernameController.text = 'stefan.esanu';
     passwordController.text = 'abcd1234';
 
     return Center(
@@ -168,6 +161,8 @@ class _LoginPageState extends State<LoginPage> {
 
       //store the auth token to be used in secured requests later 
       Globals.authToken = Utils.instance.createAuthToken(username, password);
+      if (profile['id'] != null)
+        Globals.userId = profile['id'];
       int roleId = profile['roleId'];
       if (roleId == 4)
         Navigator.pushNamed(context, AdminHomePage.tag, arguments: profile);
