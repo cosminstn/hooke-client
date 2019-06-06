@@ -6,6 +6,7 @@ import 'package:hooke/models/Reservation.dart';
 import 'package:hooke/utils/Constants.dart';
 import 'package:hooke/utils/Globals.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 
 class ActiveReservationsPage extends StatelessWidget {
@@ -48,6 +49,10 @@ class _ReservationsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    DateFormat timeFormat = new DateFormat('HH:mm:ss');
+    DateFormat dateFormat = new DateFormat('dd MMMM yyyy');
+
     return Scaffold(
       body: ListView.builder(
         itemCount: reservations.length,
@@ -60,7 +65,7 @@ class _ReservationsList extends StatelessWidget {
               child: Column(children: <Widget>[
                   Padding(padding: EdgeInsets.all(10),
                     child: Text(
-                      'Date: ' + reservations[index].date.toLocal().toString(),
+                      'Date: ' + dateFormat.format(reservations[index].date.toLocal()),
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold
@@ -70,7 +75,8 @@ class _ReservationsList extends StatelessWidget {
                   Row(children: <Widget>[
                     Expanded(
                       child: Text(
-                        'Start: ' + reservations[index].startTime.toLocal().toString(),
+                        'Start: ' + timeFormat.format(reservations[index].startTime.toLocal()),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold
@@ -79,7 +85,8 @@ class _ReservationsList extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        'End: ' + reservations[index].startTime.toLocal().toString(),
+                        'End: ' + timeFormat.format(reservations[index].endTime.toLocal()),
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold
@@ -95,7 +102,4 @@ class _ReservationsList extends StatelessWidget {
       )
     );
   }
-
-  
-
 }

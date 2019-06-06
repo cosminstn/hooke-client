@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Reservation {
   final int id;
 	final int userId;
@@ -13,13 +15,13 @@ class Reservation {
                 this.tableId, this.orderId, this.confirmed});
 
   factory Reservation.fromJson(Map<String, dynamic> json) { 
-    print(json);
+    print(json['date'] + 'T' + json['endTime'] + 'Z');
     return Reservation(
       id: json['id'],
       userId: json['userId'],
       date: DateTime.parse(json['date']),
-      endTime: DateTime.parse(json['endTime']),
-      startTime: DateTime.parse(json['startTime']),
+      endTime: DateTime.parse(json['date'] + 'T' + json['endTime'] + 'Z'),
+      startTime: DateTime.parse(json['date'] + 'T' + json['startTime'] + 'Z'),
       nrOfPersons: json['nrOfPersons'],
       tableId: json['tableId'],
       orderId: json['orderId'],
