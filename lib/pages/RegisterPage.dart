@@ -264,7 +264,8 @@ class _RegisterPageState extends State<RegisterPage> {
         'Authorization': Constants.AUTH_HEADER_PREFIX + Utils.instance.createAuthToken(username, password)
       },
       body: json.encode(profileData));
-    // print(response.body);
+    print('This is the register response: ');
+    print(response.body);
     return response.statusCode == 200;
   }
 

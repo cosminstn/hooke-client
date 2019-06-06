@@ -12,15 +12,18 @@ class Reservation {
   Reservation ({this.id, this.userId, this.date, this.startTime, this.endTime, this.nrOfPersons, 
                 this.tableId, this.orderId, this.confirmed});
 
-  // factory Reservation.fromJson(Map<String, dynamic> json) { 
-  //   print(json);
-  //   return Reservation(
-  //     id: json['id'],
-  //     userId: json['userId'],
-  //     date: DateTime.parse(formattedString)
-  //     name: json['name'],
-  //     description: json['description'],
-  //     maxSeats: json['maxSeats']
-  //   );
-  // }
+  factory Reservation.fromJson(Map<String, dynamic> json) { 
+    print(json);
+    return Reservation(
+      id: json['id'],
+      userId: json['userId'],
+      date: DateTime.parse(json['date']),
+      endTime: DateTime.parse(json['endTime']),
+      startTime: DateTime.parse(json['startTime']),
+      nrOfPersons: json['nrOfPersons'],
+      tableId: json['tableId'],
+      orderId: json['orderId'],
+      confirmed: json['confirmed']
+    );
+  }
 }

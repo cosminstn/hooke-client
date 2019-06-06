@@ -124,14 +124,60 @@ class _EditTablePageState extends State<EditTablePage> {
                   OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
         ));
 
-    List<Widget> children = List<Widget>();
+    final saveBtn = Padding(
+        padding: EdgeInsets.all(10),
+        child: MaterialButton(
+          color: Colors.lime,
+          child: Text('Save'),
+          onPressed: () {
+            print('updating table...');
+          },
+        ));
 
-    children.add(numberField);
-    children.add(nameField);
-    children.add(descriptionField);
-    children.add(maxSeatsField);
+    final delBtn = Padding(
+        padding: EdgeInsets.all(10),
+        child: MaterialButton(
+          color: Colors.red,
+          child: Text('Delete'),
+          onPressed: () {
+            showDialog(context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Are you sure?'),
+                  content: Text('Deleting a table is a permanent operation and cannot be reverted!'),
+                  actions: <Widget>[
+                    MaterialButton(
+                      color: Colors.red,
+                      child: Text('DELETE'),
+                      onPressed: () {
+                        deleteTable(initialValue.id);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    MaterialButton(
+                      child: Text('Cancel'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              }
+            );
+          },
+        ));
+
+    List<Widget> form = List<Widget>();
+
+    form.add(numberField);
+    form.add(nameField);
+    form.add(descriptionField);
+    form.add(maxSeatsField);
 
     String formTitle = 'Register a table';
+
+    List<Widget> actionButtons = List<Widget>();
+    actionButtons.add(Expanded(child: saveBtn));
 
     if (this.mode == FormOperatingModes.UPDATE_OR_DELETE) {
       idController.text = initialValue.id.toString();
@@ -140,14 +186,29 @@ class _EditTablePageState extends State<EditTablePage> {
       descriptionController.text = initialValue.description ?? '';
       maxSeatsController.text = initialValue.maxSeats.toString();
 
-      children.insert(0, idField);
+      form.insert(0, idField);
       formTitle = 'Update table ' + initialValue.number.toString();
+
+      // add the delete button
+      actionButtons.add(Expanded(child: delBtn));
     }
+
+    final col = Column(
+      verticalDirection: VerticalDirection.down,
+      children: <Widget>[
+        Expanded(child: ListView(children: form)),
+        Row(children: actionButtons)
+      ],
+    );
 
     return Scaffold(
         appBar: AppBar(title: Text(formTitle)),
         body: Padding(
             padding: EdgeInsets.all(10),
-            child: Form(key: _formKey, child: ListView(children: children))));
+            child: Form(key: _formKey, child: col)));
+  }
+
+  Future<bool> deleteTable(int tableId) async {
+
   }
 }
